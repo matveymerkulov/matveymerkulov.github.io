@@ -26,8 +26,7 @@ export const authors = Object.assign(new Location("авторы"), {
     description:
         `Оригинальная платформа Adventure Building System: T. D. Frost
         Адаптация платформы, разработка игры: Алексеев А. Г.
-        Платформа RuWebQuest: Матвей Меркулов
-        Конверсия игры: Матвей Меркулов
+        Платформа WebQuest, конверсия игры: Матвей Меркулов
         Иллюстрации: Матвей Меркулов с помощью ChatGPT 5 Sora
     
         *Вернуться*`,
