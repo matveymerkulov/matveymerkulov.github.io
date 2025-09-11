@@ -1,0 +1,146 @@
+body {
+    margin: 0;
+    background: #f5f5f5;
+    color: #212121;
+    font-family: Roboto, Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 100vh;
+    font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320)));
+    overflow: isHidden;
+}
+
+#main {
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    padding: 16px;
+    gap: 16px;
+    max-width: calc(100vh * 1.5 - 48px);
+    text-align: justify;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    min-width: 0;
+    flex: 1;
+}
+
+#column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 16px;
+}
+
+#image {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#console {
+    overflow-y: auto;
+}
+
+.image_div {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+#image_div_1 {
+    text-align: center;
+    background-size: 100% 100%;
+    flex: 1;
+}
+
+#image_div_2 {
+    backdrop-filter: blur(8px);
+}
+
+#image_div_3 {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: white;
+    padding: 0;
+}
+
+.menu {
+    position: fixed;
+    z-index: 1000;
+    background: #fff;
+    color: #212121;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.12);
+    padding: 6px;
+    min-width: 160px;
+}
+
+.menu_item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.menu_item:hover {
+    background: #f5f5f7;
+}
+
+.menu_item:focus {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: transparent;
+}
+
+.link {
+    color: #3f51b5;
+    text-decoration: underline dotted;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 0 2px;
+}
+
+.link:hover {
+    background: rgba(63,81,181,.08);
+}
+
+.link:focus {
+    outline: 2px solid rgba(63,81,181,.35);
+    outline-offset: 2px;
+}
+
+p {
+    margin-block-end: 0;
+}
+
+
+@media (aspect-ratio < 1) {
+    #main {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (device-width < 400) {
+    body {
+
+    }
+}
