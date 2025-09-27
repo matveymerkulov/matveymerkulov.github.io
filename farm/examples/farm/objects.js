@@ -12,7 +12,7 @@ export const door = Object.assign(new Obj("дверь"), {
     location1: "прихожая",
     isClosed: yes,
 
-    name: () => (door.isClosed ? ["закрытая дверь", "открытую дверь"]
+    name: () => (door.isClosed ? ["закрытая дверь", "закрытую дверь"]
         : ["открытая дверь", "открытую дверь"]),
     commands: [
         {
