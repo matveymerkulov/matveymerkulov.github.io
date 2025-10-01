@@ -1,7 +1,8 @@
-import {executeCommand, updateCommands, Pad, declineName} from "./main.js"
+import {executeCommand, updateCommands, Pad, declineName, movePlayerTo} from "./main.js"
 import {isClosed, isHidden, toString} from "./functions.js"
 import {player} from "./person.js"
 import {allObjects} from "./base.js"
+import {currentLocaleIndex, loc, tran} from "./localization.js"
 
 let portrait
 const mainElement = document.getElementById("main")
@@ -46,12 +47,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function parseText(text) {
-    let begin = 0, link = false, newText = ""
+    let begin = 0, link = false, newText = "", locale = 0
+    text = tran(text)
     for(let index = 0; index < text.length; index++) {
         const symbol = text.charAt(index)
         if(symbol === "*") {
             if(link) {
-                newText = newText.concat('<span class="link">' + text.substring(begin, index) + '</span>')
+                const part = text.substring(begin, index).split("=")
+                let exit = ""
+                if(part.length > 1) {
+                    exit = part[1]
+                    if(exit === "") exit = part[0]
+                    exit = ` exit="${exit}"`
+                }
+                newText = newText.concat(`<span class="link"${exit}>${part[0]}</span>`)
             } else {
                 newText = newText.concat(text.substring(begin, index))
             }
@@ -60,6 +69,8 @@ function parseText(text) {
         } else if(symbol === "\n") {
             newText = newText.concat(text.substring(begin, index), "<p>")
             begin = index + 1
+        } else if(symbol === "~") {
+            locale++
         }
     }
     newText = newText.concat(text.substring(begin))
@@ -72,7 +83,9 @@ function objectsText(object) {
     let text = ""
     for(let childObject of object.objects) {
         if(isHidden(childObject)) continue
-        text += `, <span class="link">${declineName(childObject, Pad.vin)}</span>`
+        let inside = childObject.container?.inside
+        inside = inside === undefined ? "" : ` (${tran(inside)})`
+        text += `, <span class="link">${declineName(childObject, Pad.vin)}</span>${inside}`
         if(isClosed(childObject)) continue
         text += objectsText(childObject)
     }
@@ -92,17 +105,18 @@ function personInfoText(array, prefix, pad = Pad.imen) {
 export function update() {
     updateCommands()
 
-    const loc = player.location
-    let text = objectsText(loc)
-    if(text !== "") text = "<p>Вы видите " + text.substring(2)
+    const location = player.location
+    let text = objectsText(location)
+    if(text !== "") text = "<p>" + loc("youSee") + text.substring(2)
 
     descriptionElement.innerHTML =
-        parseText(toString(loc.description, loc))
-        + text
-        + personInfoText(player.inventory, "<p>У вас с собой ")
-        + personInfoText(player.clothes, "<p>На вас надет ", Pad.vin)
+        parseText(
+            tran(toString(location.description, location))) +
+        text +
+        personInfoText(player.inventory, "<p>" + loc("youHave")) +
+        personInfoText(player.clothes, "<p>" + loc("youWear"), Pad.vin)
 
-    const imageFile = toString(loc.image, loc)
+    const imageFile = toString(location.image, location)
     if(imageFile === "") {
         imageElement.hidden = true
     } else {
@@ -124,6 +138,10 @@ export function update() {
 
     for(const element of document.getElementsByClassName("link")) {
         element.addEventListener("click", event => {
+            if(event.target.hasAttribute("exit")) {
+                movePlayerTo(event.target.getAttribute("exit"))
+                return
+            }
             executeCommand(event.target.innerHTML)
         })
     }

@@ -1,20 +1,19 @@
-// noinspection NonAsciiCharacters
-
 import {Obj} from "./object.js"
 import {player} from "./person.js"
+import {loc} from "./localization.js"
 
 export class Item extends Obj {
     init() {
         super.init()
         this.commands.push({
-            text: "взять",
+            text: () => loc("take"),
             condition: () => !player.has(this),
             execution: () => {
                 player.putOff(this)
-                player.взять(this)
+                player.take(this)
             }
         }, {
-            text: "положить",
+            text: () => loc("drop"),
             condition: () => player.has(this),
             execution: () => player.drop(this)
         })

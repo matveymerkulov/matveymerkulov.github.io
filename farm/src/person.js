@@ -15,6 +15,7 @@ function removeFromPersonArray(person, array, item) {
     if(!array.includes(item)) return
     removeFromArray(array, item)
     person.location.objects.push(item)
+    item.container = person.location
 }
 
 export class Person extends Obj {
@@ -36,9 +37,9 @@ export class Person extends Obj {
         return this.inventory.includes(item)
     }
 
-    взять(item){
-        const макс = this.maxItems
-        if(макс >= 0 && this.inventory.length >= макс) {
+    take(item){
+        const max = this.maxItems
+        if(max >= 0 && this.inventory.length >= max) {
             write("Вы не можете нести больше предметов.")
             return
         }
@@ -53,7 +54,7 @@ export class Person extends Obj {
         return this.clothes.includes(item)
     }
 
-    wear(item){
+    putOn(item){
         addToPersonArray(this, this.clothes, item)
     }
 

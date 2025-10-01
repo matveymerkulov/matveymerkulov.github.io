@@ -1,5 +1,6 @@
 import {error, toArray} from "./functions.js"
 import {BaseObject, allObjects} from "./base.js"
+import {loc} from "./localization.js"
 
 export class Container extends BaseObject {
     objects = []
@@ -9,7 +10,7 @@ export class Container extends BaseObject {
         const array = []
         for(let objectName of toArray(this.objects)) {
             const object = allObjects.get(objectName)
-            if(!object) error(`Объект "${objectName}" не найден!`)
+            if(!object) error(loc("object") + objectName + loc("isNotFound"))
             object.container = this
             array.push(object)
         }

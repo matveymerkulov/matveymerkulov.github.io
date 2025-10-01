@@ -1,18 +1,19 @@
 import {Item} from "./item.js"
 import {player} from "./person.js"
+import {loc, tran} from "./localization.js"
 
 export class Cloth extends Item {
     init() {
         super.init()
         this.commands.push({
-            text: "надеть",
+            text: () => loc("putOn"),
             condition: () => !player.wears(this),
             execution: () => {
                 player.drop(this)
-                player.wear(this)
+                player.putOn(this)
             }
         }, {
-            text: "снять",
+            text: () => loc("putOff"),
             condition: () => player.wears(this),
             execution: () => player.putOff(this)
         })

@@ -22,6 +22,19 @@ export function toValue(object, parent = undefined) {
 }
 
 
+export function combine(...parts) {
+    const object = Object.assign(...parts)
+    const commands = []
+    for(let i = 1; i < parts.length; i++){
+        const part = parts[i]
+        if(!isArray(part.commands)) continue
+        commands.push(...part.commands)
+    }
+    object.commands = commands
+    return object
+}
+
+
 export function isHidden(object) {
     return toValue(object.isHidden, object)
 }
