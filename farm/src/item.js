@@ -1,22 +1,35 @@
 import {Obj} from "./object.js"
 import {player} from "./person.js"
-import {loc} from "./localization.js"
+import {loc, tran} from "./localization.js"
 
 export class Item extends Obj {
-    init() {
-        super.init()
-        this.commands.push({
+    getCommands() {
+        const commands = []
+
+        commands.push({
             text: () => loc("take"),
-            condition: () => !player.has(this),
-            execution: () => {
-                player.putOff(this)
-                player.take(this)
+            condition: (item) => !player.has(item),
+            execution: (item) => {
+                player.putOff(item)
+                player.take(item)
             }
-        }, {
-            text: () => loc("drop"),
-            condition: () => player.has(this),
-            execution: () => player.drop(this)
         })
+
+        function addDropCommand(container) {
+            if(!container.put) return
+            commands.push({
+                text: () => loc("drop") + "/" + tran(container.put),
+                condition: (item) => player.has(item),
+                execution: (item) => player.drop(item, container)
+            })
+        }
+
+        addDropCommand(player.location)
+        for(const object of player.location.objects) {
+            addDropCommand(object)
+        }
+
+        return commands
     }
 
     moveTo(container) {

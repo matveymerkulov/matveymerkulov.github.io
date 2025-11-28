@@ -71,6 +71,12 @@ function operateCommands(object, prefix = "") {
         }, object, prefix)
     }
 
+    if(object.getCommands) {
+        for(let command of object.getCommands()) {
+            operateCommand(command, object, prefix)
+        }
+    }
+
     for(let command of toArray(object.commands)) {
         operateCommand(command, object, prefix)
     }
@@ -87,6 +93,7 @@ function operateCommands(object, prefix = "") {
 export function updateCommands() {
     actionsBefore()
 
+
     const location = player.location
 
     menu = {}
@@ -98,8 +105,6 @@ export function updateCommands() {
     for(let object of player.clothes) {
         operateCommands(object, declineName(object, Pad.vin) + "/")
     }
-
-    console.log(menu)
 }
 
 export function executeCommand(text) {

@@ -11,11 +11,11 @@ function addToPersonArray(person, array, item) {
     array.push(item)
 }
 
-function removeFromPersonArray(person, array, item) {
+function removeFromPersonArray(person, array, item, container) {
     if(!array.includes(item)) return
     removeFromArray(array, item)
-    person.location.objects.push(item)
-    item.container = person.location
+    container.objects.push(item)
+    item.container = container
 }
 
 export class Person extends Obj {
@@ -46,8 +46,8 @@ export class Person extends Obj {
         addToPersonArray(this, this.inventory, item)
     }
 
-    drop(item) {
-        removeFromPersonArray(this, this.inventory, item)
+    drop(item, container) {
+        removeFromPersonArray(this, this.inventory, item, container)
     }
 
     wears(item) {
@@ -58,8 +58,8 @@ export class Person extends Obj {
         addToPersonArray(this, this.clothes, item)
     }
 
-    putOff(item) {
-        removeFromPersonArray(this, this.clothes, item)
+    putOff(item, container) {
+        removeFromPersonArray(this, this.clothes, item, container)
     }
 
     destroy(item) {

@@ -59,6 +59,7 @@ export const barn = combine(new Location("амбар"), {
     description: "Вы находитесь в чистом и аккуратном амбаре. Фермер, которому он принадлежит, по-видимому" +
         " любит свое дело. Можно *идти на юг=двор*.~You are in a clean and tidy barn. The farmer who owns it," +
         "apparently loves his work. You can *go south=двор*.",
+    put: "на пол~on the floor",
 })
 
 
@@ -66,7 +67,8 @@ export const yard = combine(new Location("двор"), {
     image: "barn_yard.jpg",
     description: "Вы вышли на двор фермы. Никаких животных не видно. На севере - *амбар=*, на юге - *поле=*." +
         "~You have come out into the farm yard. No animals are visible. To the north is a *barn=амбар*, " +
-        "to the south is a *field=поле*."
+        "to the south is a *field=поле*.",
+    put: "на землю~on the ground",
 })
 
 
@@ -77,8 +79,8 @@ export const stable = combine(new Location("конюшня"), {
         "Можно *выйти=поле* из конюшни." +
         "~The stable is completely empty. There is not even the characteristic smell of animals. " +
         "The stairs lead *to the attic=чердак*, and you can also see *steps=погреб* hiding somewhere below" +
-        ", in the darkness. You can *leave=поле* the stable."
-    ,
+        ", in the darkness. You can *leave=поле* the stable.",
+    put: "на пол~on the floor",
 })
 
 
@@ -88,6 +90,7 @@ export const attic = combine(new Location("чердак"), {
         "Скорее его можно описать, как большое хранилище над комнатой." +
         "~Climbing up the *stairs=конюшня*, you find yourself in an open attic — " +
         "more like a large storage space above the room.",
+    put: "на пол~on the floor",
 })
 
 
@@ -98,6 +101,7 @@ export const field = combine(new Location("поле"), {
         "Можно пойти *на север=двор*, *на юг=дорога*, *на восток=порог* и *на запад=конюшня*." +
         "~You have come out into an open *field*. It has been recently plowed, but nothing has been planted. " +
         "You can go *north=двор*, *south=дорога*, *east=порог*, and *west=конюшня*.",
+    put: "на землю~on the ground",
     commands: [
         {
             text: "поле~field/выкопать яму~dig a hole/лопатой~with a shovel",
@@ -122,6 +126,7 @@ export const entrance = combine(new Location("порог"), {
         " от чего скрываться. От двери отходит дорога в *поле=*." +
         "~You are at the door of a farmhouse. The house is very well made and sturdy, " +
         "as if the owners had something to hide from. A road leads from the door into the *field=поле*.",
+    put: "на землю~on the ground",
 })
 
 
@@ -134,6 +139,7 @@ export const hallway = combine(new Location("прихожая"), {
         "На востоке - *кухня=*, на севере - *гостиная=*." +
         "~In front of you is a small hallway. In the corner there is a cupboard and nothing else here. " +
         "To the east is the *kitchen=кухня*, to the north is the *living room=гостиная*.",
+    put: "на пол~on the floor",
 })
 
 
@@ -144,6 +150,7 @@ export const livingRoom = combine(new Location("гостиная"), {
         " Двери ведут в *столовую=столовая* и в *прихожую=прихожая*." +
         "~A cozy farmhouse living room. You feel someone's eyes on you." +
         " The doors lead to the *dining room=столовая* and the *hallway=прихожая*.",
+    put: "на пол~on the floor",
 })
 
 
@@ -154,6 +161,7 @@ export const diningRoom = combine(new Location("столовая"), {
         " Отсюда можно пройти *на кухню=кухня* и *в гостиную=гостиная*." +
         "~It looks like this dining room hasn't been used for a long time. Probably no one lives here. " +
         "From here you can go to the *kitchen=кухня* and *living room=гостиная*.",
+    put: "на пол~on the floor",
 })
 
 
@@ -163,6 +171,7 @@ export const kitchen = combine(new Location("кухня"), {
         "Можно идти *в прихожую=прихожая*, *в столовую=столовая* или *в сад=сад*." +
         "~The kitchen gleams with cleanliness. There's definitely a pleasant smell in the air. " +
         "You can go to the *hallway=прихожая*, the *dining room=столовая*, or the *garden=сад*.",
+    put: "на пол~on the floor",
 })
 
 
@@ -188,6 +197,7 @@ export const basement = combine(new Location("погреб"), {
         "see a large old-fashioned safe with a bronze lock built into it. You can climb back up *the stairs=конюшня*." :
         "Здесь темно и ничего не видно! Только на *лестницу=конюшня* падает немного света." +
         "~It's dark here and you can't see anything! Only a little light falls on the *stairs=конюшня*.",
+    put: "на пол~on the floor",
 })
 
 
@@ -195,6 +205,7 @@ export const deadEnd = combine(new Location("тупик"), {
     image: "dead_end.jpg",
     description: "Это тупик. Можно было сюда вообще не приходить. Вернемся *назад=дорога*?" +
         "~This is a dead end. You didn't need to come here at all. Shall we go *back=дорога*?",
+    put: "на землю~on the ground",
 })
 
 
@@ -202,6 +213,7 @@ export const road = combine(new Location("дорога"), {
     image: "road.jpg",
     description: "Эта дорога ведет с *востока=уВорот* на *север=поле*. Но, кажется, можно пройти и *на запад=тупик*." +
         "~This road leads from the *east=уВорот* to the *north=поле*. But it seems that you can also go *west=тупик*.",
+    put: "на землю~on the ground",
 })
 
 
@@ -210,6 +222,7 @@ export const atTheGates = combine(new Location("уВорот"), {
     image: () => "gates_" + (gates.isClosed ? "closed" : "opened") + ".jpg",
     description: "*Дорога=дорога* упирается в ворота, за ними расположен приусадебный сад." +
         "~*The road=дорога* ends at a gate, behind which is a garden.",
+    put: "на землю~on the ground",
 })
 
 
@@ -223,8 +236,9 @@ export const garden = combine(new Location("сад"), {
         "Можно *войти в дом=кухня*." +
         "~This is a rather deserted *garden*, which looks more like a lawn with a few flower " +
         "beds. " + (gardenHole.isHidden ? "It would be quite beautiful here if it weren't for the colorless trampled " +
-        "*spot* in front of the gate leading to the west. " : "") + "You see the gate leading west. " +
+        "spot in front of the gate leading to the west. " : "") + "You see the gate leading west. " +
         "You can *enter the house=кухня*.",
+    put: "на землю~on the ground",
     commands: [
         {
             text: "сад~garden/осмотреть~inspect",

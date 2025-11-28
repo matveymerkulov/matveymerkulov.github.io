@@ -57,6 +57,8 @@ export const cupboard = combine(new Obj("буфет"), {
     wasOpen: no,
 
     name: () => (cupboard.isClosed ? "закрытый буфет~closed cupboard" : "открытый буфет~opened cupboard"),
+    inside: "в буфете~inside cupboard",
+    put: "в буфет~in cupboard",
     commands: [
         {
             text: "открыть~open",
@@ -65,7 +67,7 @@ export const cupboard = combine(new Obj("буфет"), {
                 cupboard.isClosed = no
                 write("ОК, вы открыли буфет.")
                 if(!cupboard.wasOpen) {
-                    write('Вы слышите тихий голос, доносящийся из глубины буфета:' +
+                    write('Вы слышите тихий голос, доносящийся из глубины буфета: ' +
                         '"Швырни шкатулку c чердака и увидишь, что будет!".' +
                         '~You hear a quiet voice coming from the depths of the cupboard: ' +
                         '"Throw the box from the attic and see what happens!"')
@@ -97,6 +99,7 @@ export const safe = combine(new Obj("сейф"), {
         "Дверца сейфа закрыта.~The safe door is closed." :
         "Дверца сейфа открыта.~The safe door is open.",
     inside: "в сейфе~inside safe",
+    put: "в сейф~in safe",
     commands: [
         {
             text: "отпереть~unlock/бронзовым ключом~with the bronze key",
@@ -219,20 +222,23 @@ export const gardenHole = combine(new Obj("ямаВСаду"), {
     inspect: "Это довольно глубокая яма, и если туда свалиться, то...!" +
         "~This is a pretty deep hole — if you fall in, then...!",
     inside: "в яме~inside hole",
+    put: "в яму~in hole",
     objects: "ключ",
     commands: [
         {
             text: "закопать~fill/лопатой~with shovel",
             condition: () => player.has(shovel),
-            execution: (hole) => {
-                write(hole.fillText)
-                hole.isHidden = yes
+            execution: () => {
+                write(gardenHole.fillText)
+                gardenHole.isHidden = yes
+                gardenSpot.isHidden = no
             }
         }, {
             text: "закопать~fill/руками~with bare hands",
-            execution: (hole) => {
-                write(hole.fillText)
-                hole.isHidden = yes
+            execution: () => {
+                write(gardenHole.fillText)
+                gardenSpot.isHidden = no
+                gardenHole.isHidden = yes
             }
         }
     ]
@@ -243,20 +249,22 @@ export const fieldHole = combine(new Obj("ямаВПоле"), {
     fillText: "OK, вы закопали яму в поле.~OK, you filled in the hole in the field.",
 
     name: ["яма~hole", "яму~hole"],
+    inside: "в яме~inside hole",
+    put: "в яму~in hole",
     commands: [
         {
             text: "закопать~fill/лопатой~with shovel",
-            condition: (hole) => !hole.isHidden & player.has(shovel),
-            execution: (hole) => {
-                write(hole.fillText)
-                hole.isHidden = yes
+            condition: () => !fieldHole.isHidden & player.has(shovel),
+            execution: () => {
+                write(fieldHole.fillText)
+                fieldHole.isHidden = yes
             }
         }, {
             text: "закопать~fill/руками~with bare hands",
-            condition: (hole) => !hole.isHidden,
-            execution: (hole) => {
-                write(hole.fillText)
-                hole.isHidden = yes
+            condition: () => !fieldHole.isHidden,
+            execution: () => {
+                write(fieldHole.fillText)
+                fieldHole.isHidden = yes
             }
         }
     ]
